@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import cc.zhanyun.service.model.Project;
+import cc.zhanyun.service.model.project.Project;
 
 @Controller
 @RequestMapping(value = "/offer", produces = { APPLICATION_JSON_VALUE })

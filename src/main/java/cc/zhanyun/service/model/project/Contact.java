@@ -1,4 +1,4 @@
-package cc.zhanyun.service.model;
+package cc.zhanyun.service.model.project;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,15 +10,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-07-18T02:04:53.655Z")
-public class Creator  {
+public class Contact  {
   
   private String oid = null;
   private String name = null;
 
   /**
-   * 创建者ID
+   * 员工ID
    **/
-  @ApiModelProperty(value = "创建者ID")
+  @ApiModelProperty(value = "员工ID")
   @JsonProperty("oid")
   public String getOid() {
     return oid;
@@ -28,8 +28,9 @@ public class Creator  {
   }
 
   /**
-   * 创建者姓�?   **/
-  @ApiModelProperty(value = "创建者姓ID")
+   * 员工姓名
+   **/
+  @ApiModelProperty(value = "员工姓名")
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -47,9 +48,9 @@ public class Creator  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Creator creator = (Creator) o;
-    return Objects.equals(oid, creator.oid) &&
-        Objects.equals(name, creator.name);
+    Contact contact = (Contact) o;
+    return Objects.equals(oid, contact.oid) &&
+        Objects.equals(name, contact.name);
   }
 
   @Override
@@ -60,7 +61,7 @@ public class Creator  {
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Creator {\n");
+    sb.append("class Contact {\n");
     
     sb.append("  oid: ").append(oid).append("\n");
     sb.append("  name: ").append(name).append("\n");

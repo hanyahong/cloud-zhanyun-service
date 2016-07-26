@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import cc.zhanyun.service.model.Project;
+import cc.zhanyun.service.model.project.Project;
 
 import com.mongodb.BasicDBObject;
 

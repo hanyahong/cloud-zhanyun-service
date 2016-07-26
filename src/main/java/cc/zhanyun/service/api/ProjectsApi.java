@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cc.zhanyun.service.domain.ProjectService;
-import cc.zhanyun.service.model.Project;
+import cc.zhanyun.service.model.project.Project;
 
 @Controller
 @RequestMapping("/projects")
