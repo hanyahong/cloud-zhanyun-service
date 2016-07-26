@@ -1,4 +1,4 @@
-package cc.zhanyun.service.model.project;
+package cc.zhanyun.service.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
