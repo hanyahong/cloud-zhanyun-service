@@ -51,7 +51,11 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${springfox-version}</version>
 		</dependency>
-
+		<!-- thmleaf模板依赖. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
 		<dependency>
 			<groupId>org.mongodb</groupId>
@@ -67,5 +71,6 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-commons</artifactId>
 		</dependency>
+
 	</dependencies>
 </project>

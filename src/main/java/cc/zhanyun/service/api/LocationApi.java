@@ -69,18 +69,26 @@ public class LocationApi {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
+	/**
+	 * 删除单条场地
+	 * 
+	 * @param locationId
+	 * @return
+	 * @throws NotFoundException
+	 */
 	@ApiOperation(value = "单条删除场地信息", notes = "单条删除场地信息", response = Void.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "删除成功", response = Void.class),
 			@ApiResponse(code = 500, message = "服务器响应错误", response = Void.class) })
-	@RequestMapping(value = "/{location-id}", produces = { "application/json" },
+	@RequestMapping(value = "/{oid}", produces = { "application/json" },
 
 	method = RequestMethod.DELETE)
 	public ResponseEntity<Void> locaitonLocationIdDelete(
-			@ApiParam(value = "客户ID", required = true) @PathVariable("locationId") String locationId
+			@ApiParam(value = "客户ID", required = true) @PathVariable("oid") String oid
 
 	) throws NotFoundException {
 		// do some magic!
+		service.delLocationById(oid);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
@@ -93,32 +101,42 @@ public class LocationApi {
 	 */
 	@ApiOperation(value = "查询单条场地详情", notes = "查询单条场地详情  ", response = Location.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "获取成功", response = Location.class) })
-	@RequestMapping(value = "/{location-id}", produces = { "application/json" },
+	@RequestMapping(value = "/{oid}", produces = { "application/json" },
 
 	method = RequestMethod.GET)
-	public ResponseEntity<Object> locaitonLocationIdGet(
-			@ApiParam(value = "客户ID", required = true) @PathVariable("locationId") String locationId
+	public @ResponseBody
+	Location locaitonLocationIdGet(
+			@ApiParam(value = "客户ID", required = true) @PathVariable("oid") String oid
 
 	) throws NotFoundException {
 		// do some magic!
-		return new ResponseEntity<Object>(HttpStatus.OK);
+		return service.selLocationById(oid);
 	}
 
+	/**
+	 * 修改单条场地
+	 * 
+	 * @param locationId
+	 * @param location
+	 * @return
+	 * @throws NotFoundException
+	 */
 	@ApiOperation(value = "修改单条场地", notes = "修改单条场地", response = Void.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "修改成功", response = Void.class),
 			@ApiResponse(code = 500, message = "响应失败", response = Void.class) })
-	@RequestMapping(value = "/{location-id}", produces = { "application/json" },
+	@RequestMapping(value = "/{oid}", produces = { "application/json" },
 
 	method = RequestMethod.PUT)
 	public ResponseEntity<Void> locaitonLocationIdPut(
-			@ApiParam(value = "客户ID", required = true) @PathVariable("locationId") String locationId
+			@ApiParam(value = "客户ID", required = true) @PathVariable("oid") String oid
 
 			,
 
 			@ApiParam(value = "项目属性") @RequestBody Location location)
 			throws NotFoundException {
 		// do some magic!
+		service.addLocation(location);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
