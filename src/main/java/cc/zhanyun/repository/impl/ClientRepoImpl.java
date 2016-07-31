@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import cc.zhanyun.model.client.Clientmanager;
 import cc.zhanyun.model.vo.ClientVO;
 import cc.zhanyun.repository.ClientRepository;
+import cc.zhanyun.util.MongoDBUtil;
 
 import com.mongodb.BasicDBObject;
 
@@ -36,7 +37,7 @@ public class ClientRepoImpl {
 	 * @param client
 	 */
 	public void addClient(Clientmanager client) {
-
+		
 		clientrepo.save(client);
 	}
 
