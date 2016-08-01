@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import cc.zhanyun.model.file.File;
+import cc.zhanyun.model.file.FileManager;
 import cc.zhanyun.repository.FileRepository;
 
 @Repository
@@ -15,21 +15,21 @@ public class FileRepoImpl {
 	private FileRepository fileRepo;
 
 	/**
-	 * 文件上传
+	 * 文件保存
 	 */
-	public void fileUpload(File file) {
+	public void fileUpload(FileManager file) {
 		fileRepo.save(file);
 	}
 
 	/**
-	 * 单个文件下载
+	 * 单个查询
 	 */
-	public File fileDownload(String oid) {
+	public FileManager fileDownload(String oid) {
 		return fileRepo.findOne(oid);
 	}
 
 	/**
-	 * 单个删除文件
+	 * 单个删除信息
 	 */
 	public void delFile(String oid) {
 		fileRepo.delete(oid);

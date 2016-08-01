@@ -2,7 +2,7 @@ package cc.zhanyun.model.file;
 
 import org.springframework.data.annotation.Id;
 
-public class File {
+public class FileManager {
 	@Id
 	private String oid;
 	private String name;
