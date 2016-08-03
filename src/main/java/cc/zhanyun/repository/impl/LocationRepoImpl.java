@@ -19,7 +19,7 @@ public class LocationRepoImpl {
 	@Autowired
 	private LocationRepository locationRepo;
 
-	@Autowired
+	@Autowired 
 	private MongoTemplate mongoTemplate;
 
 	/**
@@ -55,7 +55,7 @@ public class LocationRepoImpl {
 	public Location selLocationById(String oid) {
 
 		Location location = locationRepo.findOne(oid);
-		System.out.println(location.getAddress()+location.getName());
+		System.out.println(location.getAddress() + location.getName());
 		System.out.println(location.getOid());
 		return location;
 	}

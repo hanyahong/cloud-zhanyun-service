@@ -12,18 +12,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import cc.zhanyun.model.Error;
+import cc.zhanyun.model.Info;
 import cc.zhanyun.model.client.Clientmanager;
 import cc.zhanyun.model.vo.ClientVO;
 import cc.zhanyun.repository.impl.ClientRepoImpl;
+import cc.zhanyun.service.impl.ClientServiceImpl;
 
-@Controller
+@RestController
 @RequestMapping(value = "/client", produces = { APPLICATION_JSON_VALUE })
 @Api(value = "/client", description = "the client API")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-07-20T07:07:41.123Z")
@@ -31,6 +35,9 @@ public class ClientApi {
 
 	@Autowired
 	private ClientRepoImpl clientRepoImpl;
+
+	@Autowired
+	private ClientServiceImpl service;
 
 	/**
 	 * 删除客户
@@ -146,4 +153,21 @@ public class ClientApi {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
+	/**
+	 * 上传头像
+	 * 
+	 * @param name
+	 * @param file
+	 * @return
+	 */
+	@ApiOperation(value = "上传头像", notes = "上传头像", response = Info.class, responseContainer = "List")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "获取成功", response = Info.class),
+			@ApiResponse(code = 500, message = "服务器响应失败", response = Error.class) })
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public String handleFileUpload(MultipartFile  file) {
+
+		return service.uploadImage(file);
+
+	}
 }

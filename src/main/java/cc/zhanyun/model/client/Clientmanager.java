@@ -25,6 +25,32 @@ public class Clientmanager {
 	private String website = null;
 	private String address = null;
 	private String _abstract = null;
+	private String username = null;
+	private String image = null;
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String get_abstract() {
+		return _abstract;
+	}
+
+	public void set_abstract(String _abstract) {
+		this._abstract = _abstract;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 	/**
 	 * 客户唯一编号

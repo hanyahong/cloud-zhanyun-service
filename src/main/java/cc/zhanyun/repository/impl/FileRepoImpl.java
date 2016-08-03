@@ -2,13 +2,11 @@ package cc.zhanyun.repository.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import cc.zhanyun.model.file.FileManager;
 import cc.zhanyun.repository.FileRepository;
 
 @Repository
-@Service
 public class FileRepoImpl {
 
 	@Autowired
@@ -23,7 +21,7 @@ public class FileRepoImpl {
 
 	/**
 	 * 单个查询
-	 */
+	 */ 
 	public FileManager fileDownload(String oid) {
 		return fileRepo.findOne(oid);
 	}

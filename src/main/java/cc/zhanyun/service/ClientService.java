@@ -1,5 +1,12 @@
 package cc.zhanyun.service;
 
-public class ClientService {
+import org.springframework.web.multipart.MultipartFile;
 
+public interface ClientService  {
+	/**
+	 * 上传客户头像
+	 */
+	public String uploadImage(MultipartFile  file);
+
+	
 }

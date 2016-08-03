@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import cc.zhanyun.model.project.Project;
 
-@Controller
+@Controller 
 @RequestMapping(value = "/project", produces = { APPLICATION_JSON_VALUE })
 @Api(value = "/project", description = "the projects API")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-07-18T06:37:51.280Z")

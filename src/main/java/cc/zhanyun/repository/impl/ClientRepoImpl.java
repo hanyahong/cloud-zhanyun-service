@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 
 import cc.zhanyun.model.client.Clientmanager;
 import cc.zhanyun.model.vo.ClientVO;
+import cc.zhanyun.model.vo.ClientimageVO;
 import cc.zhanyun.repository.ClientRepository;
-import cc.zhanyun.util.MongoDBUtil;
 
 import com.mongodb.BasicDBObject;
 
@@ -37,8 +37,9 @@ public class ClientRepoImpl {
 	 * @param client
 	 */
 	public void addClient(Clientmanager client) {
-		
+
 		clientrepo.save(client);
+
 	}
 
 	/**
@@ -113,7 +114,21 @@ public class ClientRepoImpl {
 		// 执行操作
 		mongoTemplate.upsert(new Query(Criteria.where("_id")
 				.is(client.getOid())), update, "clientmanager");
-		System.out.println(selClientById(client.getOid()).getName());
-		System.out.println(selClientById(client.getOid()).getSex());
+	}
+
+	/**
+	 * 保存图片
+	 */
+	public void saveClientImage(ClientimageVO civo) {
+		// 创建查询对象
+		BasicDBObject basicDBObject = new BasicDBObject();
+		// 追加条件
+		basicDBObject.put("$set", new BasicDBObject("image", civo.getImage()));
+		// 更新操作
+		Update update = new BasicUpdate(basicDBObject);
+		// 执行操作
+		mongoTemplate.upsert(
+				new Query(Criteria.where("_id").is("57a1b1ffbc9e2a54e5523d0b")), update,
+				"clientmanager");
 	}
 }

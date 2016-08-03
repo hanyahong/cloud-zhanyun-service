@@ -27,7 +27,7 @@ public class OfferRepoImpl {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
-
+ 
 	/**
 	 * 查询所有报价(列表)
 	 */

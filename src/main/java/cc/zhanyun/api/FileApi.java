@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,14 +52,10 @@ public class FileApi {
 			@ApiResponse(code = 200, message = "获取成功", response = Void.class),
 			@ApiResponse(code = 500, message = "服务器响应失败", response = Error.class) })
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public ResponseEntity<Void> handleFileUpload(MultipartFile file) {
-		Integer info = service.uploadFile(file);
-		if (info == 1) {
-			return new ResponseEntity<Void>(HttpStatus.OK);
-		} else if (info == 2) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<Void>(HttpStatus.FAILED_DEPENDENCY);
+	public String handleFileUpload(  MultipartFile file) {
+		String info = service.uploadFile(file);
+
+		return info;
 
 	}
 
