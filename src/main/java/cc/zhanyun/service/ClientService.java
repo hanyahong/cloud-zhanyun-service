@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ClientService  {
 	/**
-	 * 上传客户头像
+	 * 上传布局图
 	 */
 	public String uploadImage(MultipartFile  file);
 

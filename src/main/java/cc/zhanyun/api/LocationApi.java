@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import cc.zhanyun.model.Error;
 import cc.zhanyun.model.location.Location;
 import cc.zhanyun.model.vo.LocationVO;
 import cc.zhanyun.repository.impl.LocationRepoImpl;
@@ -138,6 +140,24 @@ public class LocationApi {
 		// do some magic!
 		service.addLocation(location);
 		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
+	/**
+	 * 上传场地布局图
+	 * 
+	 * @param name
+	 * @param file
+	 * @return
+	 */
+	@ApiOperation(value = "上传头像", notes = "上传头像", response = Void.class, responseContainer = "List")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "获取成功", response = Void.class),
+			@ApiResponse(code = 500, message = "服务器响应失败", response = Error.class) })
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public String handleFileUpload(MultipartFile file) {
+
+		return service.uploadImage(file);
+
 	}
 
 }

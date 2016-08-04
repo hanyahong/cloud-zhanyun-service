@@ -58,7 +58,7 @@ public class ResourcesRepoImpl {
 		for (Resources r : rlist) {
 			ResourcesVO rvo = new ResourcesVO();
 			rvo.setOid(r.getOid());
-			rvo.setName(r.getName());
+			rvo.setSimplename(r.getSimplename());
 			rvo.setClassification(r.getClassification());
 			rvlist.add(rvo);
 		}
@@ -81,7 +81,7 @@ public class ResourcesRepoImpl {
 	 * @param classification
 	 * @return List<Resources>
 	 */
-	public List<Resources> selResourcesByType(String classification) {
+	public List<ResourcesVO> selResourcesByType(String classification) {
 		return resourcesReponsitory.findByClassification(classification);
 	}
 

@@ -66,4 +66,10 @@ public class LocationRepoImpl {
 	public void delLocationById(String oid) {
 		locationRepo.delete(oid);
 	}
+	/**
+	 * 添加场地图片
+	 */
+	public void addLocationImage(String image){
+		
+	}
 }

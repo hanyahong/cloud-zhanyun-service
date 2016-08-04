@@ -1,5 +1,8 @@
 package cc.zhanyun.model.location;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 
 public class Houses {
@@ -12,6 +15,15 @@ public class Houses {
 	private String description;
 	private String introduction;
 	private String notes;
+	private List<Images> Hourseimages = new ArrayList<Images>();
+
+	public List<Images> getHourseimages() {
+		return Hourseimages;
+	}
+
+	public void setHourseimages(List<Images> hourseimages) {
+		Hourseimages = hourseimages;
+	}
 
 	public String getOid() {
 		return oid;

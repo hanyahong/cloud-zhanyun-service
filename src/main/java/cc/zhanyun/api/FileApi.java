@@ -47,12 +47,12 @@ public class FileApi {
 	 * @param file
 	 * @return
 	 */
-	@ApiOperation(value = "上传文件", notes = "上传文件", response = Void.class, responseContainer = "List")
+	@ApiOperation(value = "上传文件(模板)", notes = "上传文件(模板)", response = Void.class, responseContainer = "List")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "获取成功", response = Void.class),
 			@ApiResponse(code = 500, message = "服务器响应失败", response = Error.class) })
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public String handleFileUpload(  MultipartFile file) {
+	public String handleFileUpload(MultipartFile file) {
 		String info = service.uploadFile(file);
 
 		return info;
@@ -66,7 +66,7 @@ public class FileApi {
 	 * @return
 	 * @throws IOException
 	 */
-	@ApiOperation(value = "下载文件", notes = "下载文件", response = Void.class)
+	@ApiOperation(value = "下载文件（报价单）", notes = "下载文件（报价单）", response = Void.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "获取成功", response = Void.class),
 			@ApiResponse(code = 500, message = "服务器响应失败", response = Error.class) })

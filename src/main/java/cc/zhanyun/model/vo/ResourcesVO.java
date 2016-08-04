@@ -1,5 +1,7 @@
 package cc.zhanyun.model.vo;
 
+import org.springframework.data.annotation.Id;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -8,9 +10,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-07-18T02:04:53.655Z")
 public class ResourcesVO {
-
+	@Id
 	private String oid;
-	private String name;
+	private String simplename;
 	private String classification;
 
 	@ApiModelProperty(value = "ID")
@@ -24,13 +26,13 @@ public class ResourcesVO {
 	}
 
 	@ApiModelProperty(value = "名称")
-	@JsonProperty("name")
-	public String getName() {
-		return name;
+	@JsonProperty("simplename")
+	public String getSimplename() {
+		return simplename;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setSimplename(String simplename) {
+		this.simplename = simplename;
 	}
 
 	@ApiModelProperty(value = "分类")
