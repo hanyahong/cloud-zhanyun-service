@@ -21,7 +21,7 @@ public class FileRepoImpl {
 
 	/**
 	 * 单个查询
-	 */ 
+	 */
 	public FileManager fileDownload(String oid) {
 		return fileRepo.findOne(oid);
 	}
@@ -32,4 +32,12 @@ public class FileRepoImpl {
 	public void delFile(String oid) {
 		fileRepo.delete(oid);
 	}
+
+	/**
+	 * offeroid 查询 file
+	 */
+	public FileManager selFileByOfferoid(String uid,String offeroid) {
+		return fileRepo.findByUidAndOfferOid(uid, offeroid);
+	}
+
 }

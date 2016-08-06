@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import cc.zhanyun.model.client.Clientmanager;
 import cc.zhanyun.model.vo.ClientVO;
@@ -19,7 +18,7 @@ import cc.zhanyun.repository.ClientRepository;
 
 import com.mongodb.BasicDBObject;
 
-@Service
+
 @Repository
 public class ClientRepoImpl {
 
@@ -119,16 +118,25 @@ public class ClientRepoImpl {
 	/**
 	 * 保存图片
 	 */
-	public void saveClientImage(ClientimageVO civo) {
-		// 创建查询对象
-		BasicDBObject basicDBObject = new BasicDBObject();
-		// 追加条件
-		basicDBObject.put("$set", new BasicDBObject("image", civo.getImage()));
-		// 更新操作
-		Update update = new BasicUpdate(basicDBObject);
-		// 执行操作
-		mongoTemplate.upsert(
-				new Query(Criteria.where("_id").is("57a1b1ffbc9e2a54e5523d0b")), update,
-				"clientmanager");
+	public Integer saveClientImage(ClientimageVO civo) {
+
+		try {
+			// 创建查询对象
+			BasicDBObject basicDBObject = new BasicDBObject();
+			// 追加条件
+			basicDBObject.put("$set",
+					new BasicDBObject("image", civo.getImage()));
+			// 更新操作
+			Update update = new BasicUpdate(basicDBObject);
+			// 执行操作
+			mongoTemplate.upsert(
+					new Query(Criteria.where("_id").is(
+							"57a1b1ffbc9e2a54e5523d0b")), update,
+					"clientmanager");
+
+		} catch (Exception e) {
+			return 0;
+		}
+		return 1;
 	}
 }

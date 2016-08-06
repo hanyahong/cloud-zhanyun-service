@@ -103,14 +103,17 @@ public class FileApi {
 	String handleFileUpload(HttpServletRequest request) {
 		List<MultipartFile> files = ((MultipartHttpServletRequest) request)
 				.getFiles("file");
+		
+//	request.get
 		for (int i = 0; i < files.size(); ++i) {
 			MultipartFile file = files.get(i);
-			String name = file.getName();
+			String name = file.getOriginalFilename();
+			String url = "F:/";
 			if (!file.isEmpty()) {
 				try {
 					byte[] bytes = file.getBytes();
 					BufferedOutputStream stream = new BufferedOutputStream(
-							new FileOutputStream(new File(name + i)));
+							new FileOutputStream(new File(url + name + i)));
 					stream.write(bytes);
 					stream.close();
 				} catch (Exception e) {

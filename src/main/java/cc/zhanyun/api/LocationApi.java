@@ -12,20 +12,21 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import cc.zhanyun.model.Error;
+import cc.zhanyun.model.Info;
 import cc.zhanyun.model.location.Location;
 import cc.zhanyun.model.vo.LocationVO;
 import cc.zhanyun.repository.impl.LocationRepoImpl;
+import cc.zhanyun.service.LocationService;
 
-@Controller
+@RestController
 @RequestMapping(value = "/location", produces = { APPLICATION_JSON_VALUE })
 @Api(value = "/location", description = "the location API")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-07-18T02:04:53.655Z")
@@ -33,6 +34,8 @@ public class LocationApi {
 
 	@Autowired
 	private LocationRepoImpl service;
+	@Autowired
+	private LocationService service2;
 
 	@ApiOperation(value = "查询场地列表", notes = "查询场地列表", response = LocationVO.class, responseContainer = "List")
 	@ApiResponses(value = {
@@ -143,21 +146,48 @@ public class LocationApi {
 	}
 
 	/**
+	 * 上传会议室图片
+	 * 
+	 * @param name
+	 * @param file
+	 * @return
+	 */
+	@ApiOperation(value = "上传会议室图片", notes = "上传会议室图片")
+	@RequestMapping(value = "/house/image", method = RequestMethod.POST)
+	public Info handleLocationHouseImageUpload(MultipartFile file) {
+
+		return service2.uploadlocationHouseImage(file);
+
+	}
+
+	/**
 	 * 上传场地布局图
 	 * 
 	 * @param name
 	 * @param file
 	 * @return
 	 */
-	@ApiOperation(value = "上传头像", notes = "上传头像", response = Void.class, responseContainer = "List")
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "获取成功", response = Void.class),
-			@ApiResponse(code = 500, message = "服务器响应失败", response = Error.class) })
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public String handleFileUpload(MultipartFile file) {
+	@ApiOperation(value = "上传场地效果图", notes = "上传场地效果图")
+	@RequestMapping(value = "/image", method = RequestMethod.POST)
+	public Info handleFileUpload(MultipartFile file) {
 
-		return service.uploadImage(file);
+		return service2.uploadLocationImage(file);
 
 	}
 
+	// /**
+	// * 删除场地布局图
+	// *
+	// * @param name
+	// * @param file
+	// * @return
+	// */
+	// @ApiOperation(value = "删除项目效果图", notes = "删除项目效果图")
+	// @RequestMapping(value = "/images/{oid}", method = RequestMethod.DELETE)
+	// public Info handleFileDeleteDelete(
+	// @ApiParam(value = "场地", required = true) @PathVariable("oid") String oid,
+	// @ApiParam(value = "项目属性") @RequestBody ImagesVO ivo) {
+	// return
+	//
+	// }
 }

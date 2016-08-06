@@ -1,8 +1,12 @@
 package cc.zhanyun.model.project;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 
 import cc.zhanyun.model.client.Clientmanager;
+import cc.zhanyun.model.location.Images;
 import cc.zhanyun.model.location.Location;
 
 public class Project {
@@ -10,7 +14,6 @@ public class Project {
 	private String oid;
 	private String group;
 	private String name;
-	private String image;
 	private String py;
 	private String progress;
 	private String status;
@@ -25,8 +28,17 @@ public class Project {
 	private String leavetime;
 	private Creator creator;
 	private String createtime;
-	private Attachments attachments;
+
 	private String description;
+	private List<Images> images = new ArrayList<Images>();
+
+	public List<Images> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Images> images) {
+		this.images = images;
+	}
 
 	public String getOid() {
 		return oid;
@@ -50,14 +62,6 @@ public class Project {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
 	}
 
 	public String getPy() {
@@ -170,14 +174,6 @@ public class Project {
 
 	public void setCreatetime(String createtime) {
 		this.createtime = createtime;
-	}
-
-	public Attachments getAttachments() {
-		return attachments;
-	}
-
-	public void setAttachments(Attachments attachments) {
-		this.attachments = attachments;
 	}
 
 	public String getDescription() {

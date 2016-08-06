@@ -67,6 +67,16 @@ public class ResourcesRepoImpl {
 	}
 
 	/**
+	 * 查询 全部资源列表
+	 * 
+	 * @return List of Resources
+	 */
+	public List<Resources> selResourcesAll() {
+
+		return resourcesReponsitory.findAll();
+	}
+
+	/**
 	 * 查询 全部资源 列表 部分 键
 	 * 
 	 * @return List<Resources>
@@ -81,7 +91,7 @@ public class ResourcesRepoImpl {
 	 * @param classification
 	 * @return List<Resources>
 	 */
-	public List<ResourcesVO> selResourcesByType(String classification) {
+	public List<Resources> selResourcesByType(String classification) {
 		return resourcesReponsitory.findByClassification(classification);
 	}
 

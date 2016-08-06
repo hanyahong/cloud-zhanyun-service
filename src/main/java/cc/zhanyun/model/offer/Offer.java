@@ -24,6 +24,7 @@ public class Offer {
 	private String content = null;
 	private Clientmanager client = null;
 	private String tax = null;
+
 	private String benefit = null;
 	private String total = null;
 	private String createby = null;
@@ -31,6 +32,42 @@ public class Offer {
 	private Integer status = null;
 	private List<Houses> houses = new ArrayList<Houses>();
 	private List<Resourcetypes> resourcetypes = new ArrayList<Resourcetypes>();
+	private String totalnotax;
+	private String discount;
+	private String proportion;
+	private String totaltax;
+
+	public String getTotalnotax() {
+		return totalnotax;
+	}
+
+	public void setTotalnotax(String totalnotax) {
+		this.totalnotax = totalnotax;
+	}
+
+	public String getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(String discount) {
+		this.discount = discount;
+	}
+
+	public String getProportion() {
+		return proportion;
+	}
+
+	public void setProportion(String proportion) {
+		this.proportion = proportion;
+	}
+
+	public String getTotaltax() {
+		return totaltax;
+	}
+
+	public void setTotaltax(String totaltax) {
+		this.totaltax = totaltax;
+	}
 
 	public Clientmanager getClient() {
 		return client;

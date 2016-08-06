@@ -8,6 +8,15 @@ public class ProjectOfferVO {
 	private String name;
 	private String address;
 	private Integer status;
+	private String clientmanager;
+
+	public String getClientmanager() {
+		return clientmanager;
+	}
+
+	public void setClientmanager(String clientmanager) {
+		this.clientmanager = clientmanager;
+	}
 
 	public String getOid() {
 		return oid;

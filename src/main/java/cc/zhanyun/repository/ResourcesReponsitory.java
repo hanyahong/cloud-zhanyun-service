@@ -29,6 +29,6 @@ public interface ResourcesReponsitory extends
 	 * 
 	 * @return
 	 */
-	@Query(fields = "{'_id':1,'simplename':1,'classification':1}")
-	public List<ResourcesVO> findByClassification(String classification);
+	
+	public List<Resources> findByClassification(String classification);
 }

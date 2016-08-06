@@ -1,0 +1,59 @@
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+ 4  import org.apache.poi.hssf.usermodel.HSSFSheet;
+ 5  import org.apache.poi.hssf.usermodel.HSSFRow;
+ 6  import org.apache.poi.hssf.usermodel.HSSFCell;
+ 7 
+ 8 import java.io.*;
+ 9 
+10 public class FormulaToString {
+11 
+12     /**
+13      * @param args
+14      */
+15     public void fileInput() throws IOException {
+16 
+17         HSSFWorkbook hw = new HSSFWorkbook(new FileInputStream(
+18                 "d:/My Documents/Desktop/poi.xls"));
+19         HSSFSheet hsheet = hw.getSheet("poi test");
+20         HSSFRow hrow = hsheet.getRow(0);
+21         HSSFCell hcell = hrow.getCell(0);
+22         String cellValue = this.getCellValue(hcell);
+23         System.out.println(cellValue);
+24 
+25     }
+26 
+27     public String getCellValue(HSSFCell cell) {
+28         String value = null;
+29         if (cell != null) {
+30             switch (cell.getCellType()) {
+31             case HSSFCell.CELL_TYPE_FORMULA:
+32                 // cell.getCellFormula();
+33                 try {
+34                     value = String.valueOf(cell.getNumericCellValue());
+35                 } catch (IllegalStateException e) {
+36                     value = String.valueOf(cell.getRichStringCellValue());
+37                 }
+38                 break;
+39             case HSSFCell.CELL_TYPE_NUMERIC:
+40                 value = String.valueOf(cell.getNumericCellValue());
+41                 break;
+42             case HSSFCell.CELL_TYPE_STRING:
+43                 value = String.valueOf(cell.getRichStringCellValue());
+44                 break;
+45             }
+46         }
+47 
+48         return value;
+49     }
+50 
+51     public static void main(String[] args) {
+52         try {
+53             // TODO Auto-generated method stub
+54             FormulaToString fts = new FormulaToString();
+55             fts.fileInput();
+56         } catch (IOException e) {
+57             e.printStackTrace();
+58         }
+59     }
+60 
+61 }

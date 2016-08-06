@@ -15,14 +15,14 @@ public class Houses {
 	private String description;
 	private String introduction;
 	private String notes;
-	private List<Images> Hourseimages = new ArrayList<Images>();
+	private List<Images> images = new ArrayList<Images>();
 
-	public List<Images> getHourseimages() {
-		return Hourseimages;
+	public List<Images> getImages() {
+		return images;
 	}
 
-	public void setHourseimages(List<Images> hourseimages) {
-		Hourseimages = hourseimages;
+	public void setImages(List<Images> images) {
+		this.images = images;
 	}
 
 	public String getOid() {

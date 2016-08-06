@@ -35,18 +35,18 @@ public class ResourcesApi {
 	@Autowired
 	private ResourcesRepoImpl resourcesRepoImpl;
 
-	@ApiOperation(value = "查询设备列表", notes = "查询设备列表", response = ResourcesVO.class, responseContainer = "List")
+	@ApiOperation(value = "查询设备列表", notes = "查询设备列表", response = Resources.class, responseContainer = "List")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "获取成功", response = ResourcesVO.class),
-			@ApiResponse(code = 500, message = "服务器响应失败", response = ResourcesVO.class) })
+			@ApiResponse(code = 200, message = "获取成功", response = Resources.class),
+			@ApiResponse(code = 500, message = "服务器响应失败", response = Error.class) })
 	@RequestMapping(value = "", produces = { "application/json" },
 
 	method = RequestMethod.GET)
 	public @ResponseBody
-	List<ResourcesVO> resourcesGet() throws NotFoundException {
+	List<Resources> resourcesGet() throws NotFoundException {
 		// do some magic!
 
-		return resourcesRepoImpl.selResources();
+		return resourcesRepoImpl.selResourcesAll();
 	}
 
 	/**
@@ -276,7 +276,7 @@ public class ResourcesApi {
 
 	method = RequestMethod.GET)
 	public @ResponseBody
-	List<ResourcesVO> resourcesTypeGetList(
+	List<Resources> resourcesTypeGetList(
 			@ApiParam(value = "类型", required = true) @PathVariable("type") String classification)
 			throws NotFoundException {
 		// do some magic!

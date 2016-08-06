@@ -2,11 +2,12 @@ package cc.zhanyun.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public interface ClientService  {
+import cc.zhanyun.model.Info;
+
+public interface ClientService {
 	/**
 	 * 上传布局图
 	 */
-	public String uploadImage(MultipartFile  file);
+	public Info uploadImage(MultipartFile file);
 
-	
 }

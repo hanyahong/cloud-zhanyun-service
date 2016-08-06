@@ -10,8 +10,15 @@ public class FileManager {
 	private String date;
 	private String othername;
 	private String uid;
+	private String offerOid;
 
-	
+	public String getOfferOid() {
+		return offerOid;
+	}
+
+	public void setOfferOid(String offerOid) {
+		this.offerOid = offerOid;
+	}
 
 	public String getUid() {
 		return uid;
