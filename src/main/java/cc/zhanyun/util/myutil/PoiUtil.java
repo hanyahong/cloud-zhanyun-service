@@ -9,26 +9,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.util.Region;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public class PoiUtil {
-	// /**
-	// * 把一个excel中的cellstyletable复制到另一个excel，这里会报错，不能用这种方法，不明白呀？？？？？
-	// * @param fromBook
-	// * @param toBook
-	// */
-	// public static void copyBookCellStyle(HSSFWorkbook fromBook,HSSFWorkbook
-	// toBook){
-	// for(short i=0;i<fromBook.getNumCellStyles();i++){
-	// HSSFCellStyle fromStyle=fromBook.getCellStyleAt(i);
-	// HSSFCellStyle toStyle=toBook.getCellStyleAt(i);
-	// if(toStyle==null){
-	// toStyle=toBook.createCellStyle();
-	// }
-	// copyCellStyle(fromStyle,toStyle);
-	// }
-	// }
 	/**
 	 * 复制一个单元格样式到目的单元格样式
 	 * 
@@ -75,7 +57,8 @@ public class PoiUtil {
 			HSSFSheet toSheet, boolean copyValueFlag) {
 		// 合并区域处理
 		mergerRegion(fromSheet, toSheet);
-		for (Iterator rowIt = fromSheet.rowIterator(); rowIt.hasNext();) {
+		for (@SuppressWarnings("rawtypes")
+		Iterator rowIt = fromSheet.rowIterator(); rowIt.hasNext();) {
 			HSSFRow tmpRow = (HSSFRow) rowIt.next();
 			HSSFRow newRow = toSheet.createRow(tmpRow.getRowNum());
 			// 行复制
@@ -91,7 +74,7 @@ public class PoiUtil {
 	 */
 	public static void copyRow(HSSFWorkbook wb, HSSFRow fromRow, HSSFRow toRow,
 			boolean copyValueFlag) {
-		for (Iterator cellIt = fromRow.cellIterator(); cellIt.hasNext();) {
+		for (Iterator<?> cellIt = fromRow.cellIterator(); cellIt.hasNext();) {
 			HSSFCell tmpCell = (HSSFCell) cellIt.next();
 			HSSFCell newCell = toRow.createCell(tmpCell.getCellNum());
 			copyCell(wb, tmpCell, newCell, copyValueFlag);

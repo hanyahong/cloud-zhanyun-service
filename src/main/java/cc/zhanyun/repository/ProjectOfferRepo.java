@@ -13,12 +13,18 @@ public interface ProjectOfferRepo extends MongoRepository<ProjectOffer, String> 
 	 * 
 	 * @return List Of Clients
 	 */
-	@Query(value = "{'_id':{'$ne':null}}", fields = "{'oid':1,'name':1,'project.location.address':1,'offer.client.name':1,'offer.status':1}")
-	public List<ProjectOffer> findByIdNotNull();
+	@Query(fields = "{'oid':1,'name':1,'project.location.address':1,'offer.client.name':1,'offer.status':1}")
+	public List<ProjectOffer> findByUid(String uid);
 
 	/**
 	 * 查询不同状态的项目报价单
 	 */
 	@Query(fields = "{'oid':1,'name':1,'project.location.address':1,'offer.client.name':1,'offer.status':1}")
-	public List<ProjectOffer> findByofferStatus(Integer status);
+	public List<ProjectOffer> findByofferStatusAndUid(Integer status, String uid);
+
+	/**
+	 * 以othername查询oid
+	 */
+	@Query(fields = "{'oid':1}")
+	public ProjectOffer findByOthername(String othername);
 }

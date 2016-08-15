@@ -1,6 +1,5 @@
 package cc.zhanyun.repository.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +9,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import cc.zhanyun.model.resources.Resources;
 import cc.zhanyun.model.resources.ResourcesTypes;
-import cc.zhanyun.model.vo.ResourcesVO;
 import cc.zhanyun.repository.ResourcesReponsitory;
 
 import com.mongodb.BasicDBObject;
@@ -25,7 +22,7 @@ import com.mongodb.BasicDBObject;
  * @author Administrator
  * 
  */
-@Service
+
 @Repository
 public class ResourcesRepoImpl {
 
@@ -40,8 +37,8 @@ public class ResourcesRepoImpl {
 	 * 
 	 * @param Resources
 	 */
-	public void addResources(Resources Resources) {
-		resourcesReponsitory.save(Resources);
+	public void addResources(Resources resources) {
+		resourcesReponsitory.save(resources);
 	}
 
 	/**
@@ -49,21 +46,11 @@ public class ResourcesRepoImpl {
 	 * 
 	 * @return List of Resources
 	 */
-	public List<ResourcesVO> selResources() {
-		// 使用VO限制返回字段
-		List<ResourcesVO> rvlist = new ArrayList<ResourcesVO>();
+	public List<Resources> selResources(String uid) {
 
-		List<Resources> rlist = resourcesReponsitory.findByIdNotNull();
+		List<Resources> rlist = resourcesReponsitory.findByUid(uid);
 
-		for (Resources r : rlist) {
-			ResourcesVO rvo = new ResourcesVO();
-			rvo.setOid(r.getOid());
-			rvo.setSimplename(r.getSimplename());
-			rvo.setClassification(r.getClassification());
-			rvlist.add(rvo);
-		}
-
-		return rvlist;
+		return rlist;
 	}
 
 	/**
@@ -81,8 +68,8 @@ public class ResourcesRepoImpl {
 	 * 
 	 * @return List<Resources>
 	 */
-	public List<Resources> selResourcesSome() {
-		return resourcesReponsitory.findByIdNotNull();
+	public List<Resources> selResourcesSome(String uid) {
+		return resourcesReponsitory.findByUid(uid);
 	}
 
 	/**
@@ -91,8 +78,9 @@ public class ResourcesRepoImpl {
 	 * @param classification
 	 * @return List<Resources>
 	 */
-	public List<Resources> selResourcesByType(String classification) {
-		return resourcesReponsitory.findByClassification(classification);
+	public List<Resources> selResourcesByType(String classification, String uid) {
+		return resourcesReponsitory.findByClassificationAndUid(classification,
+				uid);
 	}
 
 	/**

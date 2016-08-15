@@ -1,16 +1,16 @@
 package cc.zhanyun.service.impl;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import cc.zhanyun.model.OfferSend;
 import cc.zhanyun.model.file.FileManager;
 import cc.zhanyun.repository.impl.FileRepoImpl;
+import cc.zhanyun.service.EmailService;
 import cc.zhanyun.service.FileService;
 import cc.zhanyun.util.TokenUtil;
 import cc.zhanyun.util.fileutil.FileUtil;
@@ -25,6 +25,8 @@ public class FileServiceImpl implements FileService {
 
 	@Autowired
 	private TokenUtil tokenutil;
+	@Autowired
+	private EmailService email;
 
 	/**
 	 * 单个文件上传
@@ -36,9 +38,9 @@ public class FileServiceImpl implements FileService {
 			// 保存文件位置
 			String url = "src\\main\\resources\\public\\";
 			// 保存文件位置
-			// String oid = tokenutil.tokenToOid();
-			String oid = "57a5ab46bc9e0026bee7b255";
-			String folder = "files";
+			String oid = tokenutil.tokenToOid();
+
+			String folder = "fileModel";
 			String othername = FileUtil.getOtherName(file);
 			Integer status = FileUtil.uploadFile(file, oid, url, folder,
 					othername);
@@ -48,9 +50,10 @@ public class FileServiceImpl implements FileService {
 				FileManager fileManager = new FileManager();
 				fileManager.setName(file.getOriginalFilename());
 				fileManager.setOthername(othername);
-				fileManager.setUid("testOid46ery4765u68ru");
+				fileManager.setUid(oid);
 				// tokenutil.tokenToOid()
-				fileManager.setUrl(folder + "\\");
+				fileManager.setUrl(oid + "\\" + folder + "\\");
+				fileManager.setBasepath(url);
 				// 持久化
 				fileRepoImpl.fileUpload(fileManager);
 				// 文件IO
@@ -69,18 +72,22 @@ public class FileServiceImpl implements FileService {
 	 * 文件下载
 	 */
 	@Override
-	public InputStreamResource downloadFile(String oid) {
-		// 获取文件路径
-		String filePath = "src\\main\\resources\\META-INF\\images";
-		// 文件
-		FileSystemResource file = new FileSystemResource(filePath);
+	public FileSystemResource downloadFile(String oid) {
+		String uid = tokenutil.tokenToOid();
+		OfferSend offerSend = new OfferSend();
 
-		try {
-			return new InputStreamResource(file.getInputStream());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			return null;
-		}
+		offerSend.setOfferOid(oid);
+		offerSend.setFileTemplateOid("57ad7d3ebc9ece1d055ab243");
+		offerSend.setTo("2783309477@qq.com");
+		email.sendAttachmentsMail(offerSend);
+		// 获取文件路径
+		FileManager filemanager = fileRepoImpl.selFileByOfferoid(uid, oid);
+		// 文件
+		FileSystemResource file = new FileSystemResource(
+				filemanager.getBasepath() + filemanager.getUrl()
+						+ filemanager.getOthername());
+
+		return file;
 
 	}
 

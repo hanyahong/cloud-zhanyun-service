@@ -1,6 +1,9 @@
 package cc.zhanyun.model.user;
 
+import org.springframework.data.annotation.Id;
+
 public class User {
+	@Id
 	private String oid;
 	private String name;
 	private String username;
@@ -17,6 +20,15 @@ public class User {
 	private String dept;
 	private String job;
 	private String URL;
+	private String image;
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
 
 	public String getURL() {
 		return URL;

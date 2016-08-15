@@ -18,7 +18,6 @@ import cc.zhanyun.repository.ClientRepository;
 
 import com.mongodb.BasicDBObject;
 
-
 @Repository
 public class ClientRepoImpl {
 
@@ -42,17 +41,28 @@ public class ClientRepoImpl {
 	}
 
 	/**
+	 * 新增客户
+	 * 
+	 * @param client
+	 */
+	public void addddClient(Clientmanager client) {
+
+		clientrepo.save(client);
+
+	}
+
+	/**
 	 * 查询客户列表(全部信息)
 	 * 
 	 * @return Client List
 	 */
-	public List<Clientmanager> selClients() {
+	public List<ClientVO> selClients(String uid) {
 		/*
 		 * BasicDBObject keys = new BasicDBObject(); keys.put("_id", 1);
 		 * keys.put("name", 1);
 		 */
 
-		return clientrepo.findAll();
+		return clientrepo.findByUid(uid);
 	}
 
 	/**
@@ -61,8 +71,8 @@ public class ClientRepoImpl {
 	 * @return Client List
 	 */
 
-	public List<ClientVO> selClientsOfIDAndName() {
-		return clientrepo.findByIdNotNull();
+	public List<ClientVO> selClientsOfIDAndName(String uid) {
+		return clientrepo.findByUid(uid);
 	}
 
 	/**
@@ -76,6 +86,11 @@ public class ClientRepoImpl {
 		// System.out.println(client.getName() + client.getCompany()
 		// + "-------------------------");
 		return client;
+	}
+
+	public Clientmanager selClientByName(String name) {
+
+		return clientrepo.findByName(name);
 	}
 
 	/**

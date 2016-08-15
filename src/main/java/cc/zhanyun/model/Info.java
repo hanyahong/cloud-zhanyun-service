@@ -1,5 +1,8 @@
 package cc.zhanyun.model;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class Info {
 	private String status;
 	private String oid;

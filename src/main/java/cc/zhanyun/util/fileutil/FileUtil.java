@@ -41,6 +41,7 @@ public class FileUtil {
 				// 返回信息
 				return 1;
 			} catch (Exception e) {
+				e.printStackTrace();
 				return 0;
 			}
 		}
@@ -175,18 +176,18 @@ public class FileUtil {
 	 */
 	public static String createUserFiles(String oid, String url, String folder) {
 
-		String useroid = oid + "\\";
+		String uid = oid + "\\";
 		String filesurl = folder + "\\";
-		File file = new File(url + useroid);
+		File file = new File(url +uid);
 		// 判断路径是否存在
 		if (!file.exists() && !file.isDirectory()) {
 			file.mkdir();
 		}
-		File file2 = new File(url + useroid + filesurl);
+		File file2 = new File(url +  uid +filesurl);
 		if (!file2.exists() && !file2.isDirectory()) {
 			file2.mkdir();
 		}
-		return url + useroid + filesurl;
+		return url + uid + filesurl;
 	}
 
 	/**

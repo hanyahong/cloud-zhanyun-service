@@ -10,8 +10,6 @@ import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 
-import cc.zhanyun.model.location.Images;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @ApiModel(description = "")
@@ -27,13 +25,22 @@ public class Resources {
 	private BigDecimal unitprice = null;
 	private String remark = null;
 	private List<ResourcesParameter> parameter = new ArrayList<ResourcesParameter>();
-	private List<Images> images = new ArrayList<Images>();
+	private String images;
+	private String uid;
 
-	public List<Images> getImages() {
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
+	public String getImages() {
 		return images;
 	}
 
-	public void setImages(List<Images> images) {
+	public void setImages(String images) {
 		this.images = images;
 	}
 

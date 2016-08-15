@@ -13,8 +13,17 @@ public class Location {
 
 	private String contacts;
 	private String introduction;
-	private List<Images> locationimages = new ArrayList<Images>();
+	private String images;
 	private List<Houses> houses = new ArrayList<Houses>();
+	private String uid;
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 
 	public String getOid() {
 		return oid;
@@ -56,12 +65,12 @@ public class Location {
 		this.introduction = introduction;
 	}
 
-	public List<Images> getLocationimages() {
-		return locationimages;
+	public String getImages() {
+		return images;
 	}
 
-	public void setLocationimages(List<Images> locationimages) {
-		this.locationimages = locationimages;
+	public void setImages(String images) {
+		this.images = images;
 	}
 
 	public List<Houses> getHouses() {

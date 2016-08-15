@@ -1,12 +1,8 @@
 package cc.zhanyun.model.project;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
 
 import cc.zhanyun.model.client.Clientmanager;
-import cc.zhanyun.model.location.Images;
 import cc.zhanyun.model.location.Location;
 
 public class Project {
@@ -28,17 +24,27 @@ public class Project {
 	private String leavetime;
 	private Creator creator;
 	private String createtime;
+	private String uid;
+	private String imageOid;
+
+	public String getImageOid() {
+		return imageOid;
+	}
+
+	public void setImageOid(String imageOid) {
+		this.imageOid = imageOid;
+	}
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 
 	private String description;
-	private List<Images> images = new ArrayList<Images>();
-
-	public List<Images> getImages() {
-		return images;
-	}
-
-	public void setImages(List<Images> images) {
-		this.images = images;
-	}
+	
 
 	public String getOid() {
 		return oid;

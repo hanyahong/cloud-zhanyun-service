@@ -13,6 +13,15 @@ public class ResourcesTypes {
 	private String oid = null;
 	private String name = null;
 	private List<ResourcesOid> resourcesoid = null;
+	private String uid;
+	
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 
 	public String getOid() {
 		return oid;

@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
-import org.junit.Test;
-
 public class RandomUtil {
 
 	/**
@@ -30,7 +28,7 @@ public class RandomUtil {
 		return str + rannum;// 当前时间
 	}
 
-	@Test
+
 	public void Test() {
 
 		String fileName = RandomUtil.getRandomFileName();

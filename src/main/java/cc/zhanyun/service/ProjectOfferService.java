@@ -21,6 +21,11 @@ public interface ProjectOfferService {
 	public Info addProjectOfferOne(ProjectOffer po);
 
 	/**
+	 * 修改项目报价单
+	 */
+	public Info updateProjectOfferOne(ProjectOffer po);
+
+	/**
 	 * 删除项目报价单
 	 */
 	public void delProjectOfferOne(String oid);
@@ -48,6 +53,6 @@ public interface ProjectOfferService {
 	/**
 	 * 上传项目图片
 	 */
-	public Info updatePrijectImage(MultipartFile file);
-	
+	public Info updatePrijectImage(MultipartFile file, String offeroid);
+
 }

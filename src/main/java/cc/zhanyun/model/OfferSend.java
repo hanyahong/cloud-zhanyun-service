@@ -3,8 +3,17 @@ package cc.zhanyun.model;
 public class OfferSend {
 	private String to;
 	private String fileTemplateOid;
+	private String setText;
 	private String offerOid;
 	private String name;
+
+	public String getSetText() {
+		return setText;
+	}
+
+	public void setSetText(String setText) {
+		this.setText = setText;
+	}
 
 	public String getTo() {
 		return to;

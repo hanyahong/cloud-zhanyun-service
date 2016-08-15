@@ -15,12 +15,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +32,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import cc.zhanyun.model.Error;
+import cc.zhanyun.model.Info;
+import cc.zhanyun.model.image.Image;
+import cc.zhanyun.model.vo.ImageProVO;
+import cc.zhanyun.repository.impl.ImageRepoImpl;
+import cc.zhanyun.service.ImageService;
 import cc.zhanyun.service.impl.FileServiceImpl;
 
 @RestController
@@ -39,6 +47,11 @@ public class FileApi {
 
 	@Autowired
 	private FileServiceImpl service;
+
+	@Autowired
+	private ImageRepoImpl image;
+	@Autowired
+	private ImageService imageService;
 
 	/**
 	 * 上传单个文件
@@ -52,7 +65,9 @@ public class FileApi {
 			@ApiResponse(code = 200, message = "获取成功", response = Void.class),
 			@ApiResponse(code = 500, message = "服务器响应失败", response = Error.class) })
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public String handleFileUpload(MultipartFile file) {
+	public String handleFileUpload(
+			@ApiParam(value = "Token", required = true) @RequestHeader("token") String token,
+			MultipartFile file) {
 		String info = service.uploadFile(file);
 
 		return info;
@@ -72,26 +87,24 @@ public class FileApi {
 			@ApiResponse(code = 500, message = "服务器响应失败", response = Error.class) })
 	@RequestMapping(value = "/download/{oid}", method = RequestMethod.GET)
 	public ResponseEntity<InputStreamResource> downloadFile(
-			@ApiParam(value = "文件ID", required = true) @PathVariable("oid") @RequestBody String oid)
+			@ApiParam(value = "报价单ID", required = true) @PathVariable("oid") @RequestBody String oid)
 			throws IOException {
 
-		InputStreamResource resource = service.downloadFile(oid);
+		FileSystemResource file = service.downloadFile(oid);
 		// 设置http header
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-		headers.add(
-				"Content-Disposition",
-				String.format("attachment; filename=\"%s\"",
-						resource.getFilename()));
+		headers.add("Content-Disposition", String.format(
+				"attachment; filename=\"%s\"", file.getFilename()));
 		headers.add("Pragma", "no-cache");
 		headers.add("Expires", "0");
 		return ResponseEntity
 				.ok()
 				.headers(headers)
-				.contentLength(resource.contentLength())
+				.contentLength(file.contentLength())
 				.contentType(
 						MediaType.parseMediaType("application/octet-stream"))
-				.body(resource);
+				.body(new InputStreamResource(file.getInputStream()));
 	}
 
 	@ApiOperation(value = "批量上传文件", notes = "批量上传文件", response = Void.class, responseContainer = "List")
@@ -100,11 +113,14 @@ public class FileApi {
 			@ApiResponse(code = 500, message = "服务器响应失败", response = Error.class) })
 	@RequestMapping(value = "/batch/upload", method = RequestMethod.POST)
 	public @ResponseBody
-	String handleFileUpload(HttpServletRequest request) {
+	String handleFileUpload(
+			@ApiParam(value = "Token", required = true) @RequestHeader("token") String token,
+			HttpServletRequest request) {
+
 		List<MultipartFile> files = ((MultipartHttpServletRequest) request)
 				.getFiles("file");
-		
-//	request.get
+
+		// request.get
 		for (int i = 0; i < files.size(); ++i) {
 			MultipartFile file = files.get(i);
 			String name = file.getOriginalFilename();
@@ -126,5 +142,84 @@ public class FileApi {
 			}
 		}
 		return "upload successful";
+	}
+
+	/**
+	 * app更新
+	 * 
+	 * @param id
+	 * @return
+	 * @throws IOException
+	 */
+	@ApiOperation(value = "app更新", notes = "app更新", response = Void.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "获取成功", response = Void.class),
+			@ApiResponse(code = 500, message = "服务器响应失败", response = Error.class) })
+	@RequestMapping(value = "/download/app", method = RequestMethod.GET)
+	public ResponseEntity<InputStreamResource> downloadAppFile()
+			throws IOException {
+
+		FileSystemResource file = service.downloadFile("dddd");
+		// 设置http header
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+		headers.add("Content-Disposition", String.format(
+				"attachment; filename=\"%s\"", file.getFilename()));
+		headers.add("Pragma", "no-cache");
+		headers.add("Expires", "0");
+		return ResponseEntity
+				.ok()
+				.headers(headers)
+				.contentLength(file.contentLength())
+				.contentType(
+						MediaType.parseMediaType("application/octet-stream"))
+				.body(new InputStreamResource(file.getInputStream()));
+	}
+
+	/**
+	 * 查询照片库
+	 * 
+	 * @param id
+	 * @return
+	 * @throws IOException
+	 */
+	@ApiOperation(value = "查询照片库", notes = "查询照片库", response = Image.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "获取成功", response = Image.class),
+			@ApiResponse(code = 500, message = "服务器响应失败", response = Error.class) })
+	@RequestMapping(value = "/image/{oid}", method = RequestMethod.GET)
+	public List<ImageProVO> downloadImage(
+			@ApiParam(value = "ID", required = true) @PathVariable("oid") @RequestBody String oid)
+			throws IOException {
+
+		return imageService.selImagesByOid(oid);
+
+	}
+
+	/**
+	 * 删除图片
+	 * 
+	 * @param oid
+	 * @return
+	 * @throws NotFoundException
+	 */
+
+	@ApiOperation(value = "删除图片", notes = "删除图片", response = Void.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "删除成功", response = Void.class),
+			@ApiResponse(code = 500, message = "服务器响应错误", response = Void.class) })
+	@RequestMapping(value = "/image/{oid}/{ioid}", produces = { "application/json" },
+
+	method = RequestMethod.DELETE)
+	public ResponseEntity<Info> clientoidDelete(
+
+			@ApiParam(value = "图片库ID", required = true) @PathVariable("oid") String oid,
+			@ApiParam(value = "图片ID", required = true) @PathVariable("ioid") String ioid
+
+	) throws NotFoundException {
+		// do some magic!
+
+		Info info = imageService.delImageService(oid, ioid);
+		return new ResponseEntity<Info>(info, HttpStatus.OK);
 	}
 }

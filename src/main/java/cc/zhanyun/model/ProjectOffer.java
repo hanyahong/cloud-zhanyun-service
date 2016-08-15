@@ -11,6 +11,24 @@ public class ProjectOffer {
 	private String name;
 	private Project project;
 	private Offer offer;
+	private String uid;
+	private String othername;
+
+	public String getOthername() {
+		return othername;
+	}
+
+	public void setOthername(String othername) {
+		this.othername = othername;
+	}
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 
 	public String getOid() {
 		return oid;

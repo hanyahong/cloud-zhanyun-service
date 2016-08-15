@@ -2,6 +2,7 @@ package cc.zhanyun.model.user;
 
 public class Verification {
 	private String status;
+	private String info;
 
 	public String getStatus() {
 		return status;
@@ -18,7 +19,4 @@ public class Verification {
 	public void setInfo(String info) {
 		this.info = info;
 	}
-
-	private String info;
-
 }

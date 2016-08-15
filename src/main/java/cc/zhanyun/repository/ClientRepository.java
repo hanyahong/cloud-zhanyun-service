@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import cc.zhanyun.model.client.Clientmanager;
 import cc.zhanyun.model.vo.ClientVO;
@@ -14,6 +15,7 @@ import cc.zhanyun.model.vo.ClientVO;
  * @author Administrator
  * 
  */
+@Repository
 public interface ClientRepository extends
 		MongoRepository<Clientmanager, String> {
 	/**
@@ -21,8 +23,8 @@ public interface ClientRepository extends
 	 * 
 	 * @return List Of Clients
 	 */
-	@Query(value = "{'_id':{'$ne':null}}", fields = "{'oid':1,'name':1}")
-	public List<ClientVO> findByIdNotNull();
+	@Query(fields = "{'oid':1,'name':1,'tel':1}")
+	public List<ClientVO> findByUid(String uid);
 
 	/**
 	 * 单条查询客户
@@ -30,7 +32,14 @@ public interface ClientRepository extends
 	 * @param oid
 	 * @return Client detail
 	 */
-
 	public Clientmanager findByOid(String oid);
 
+	/**
+	 * 以 name 查询客户
+	 */
+	public Clientmanager findByName(String name);
+	/**
+	 * 更新部分字段
+	 */
+	
 }

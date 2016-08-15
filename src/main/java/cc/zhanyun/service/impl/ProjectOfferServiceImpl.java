@@ -10,33 +10,47 @@ import org.springframework.web.multipart.MultipartFile;
 
 import cc.zhanyun.model.Info;
 import cc.zhanyun.model.ProjectOffer;
-import cc.zhanyun.model.location.Images;
+import cc.zhanyun.model.client.Clientmanager;
+import cc.zhanyun.model.image.Image;
 import cc.zhanyun.model.vo.OfferVO;
 import cc.zhanyun.model.vo.ProjectOfferVO;
+import cc.zhanyun.repository.impl.ClientRepoImpl;
 import cc.zhanyun.repository.impl.OfferRepoImpl;
 import cc.zhanyun.repository.impl.ProjectOfferRepoImpl;
 import cc.zhanyun.repository.impl.ProjectRepoImpl;
 import cc.zhanyun.service.ProjectOfferService;
 import cc.zhanyun.util.RandomUtil;
-import cc.zhanyun.util.fileutil.FileUtil;
+import cc.zhanyun.util.TokenUtil;
 
 @Repository
 @Service
 public class ProjectOfferServiceImpl implements ProjectOfferService {
 
 	@Autowired
-	ProjectOfferRepoImpl pori;
+	private ProjectOfferRepoImpl pori;
 	@Autowired
-	ProjectRepoImpl pri;
+	private ProjectRepoImpl pri;
 	@Autowired
-	OfferRepoImpl ori;
+	private OfferRepoImpl ori;
+	@Autowired
+	private ClientRepoImpl client;
+	@Autowired
+	private TokenUtil tokenutil;
+	@Autowired
+	private ImageServiceImpl imageServiceImpl;
 
 	/**
 	 * 增加项目报价单
 	 */
 	@Override
 	public Info addProjectOfferOne(ProjectOffer po) {
-		
+		String othername = RandomUtil.getRandomFileName();
+		String imageOid = RandomUtil.getRandomFileName();
+		String oid = RandomUtil.getRandomFileName();
+		po.setOthername(othername);
+		po.getProject().setImageOid(imageOid);
+		po.setUid(tokenutil.tokenToOid());
+		po.setOid(oid);
 		Info info = new Info();
 		try {
 			// 增加项目报价单
@@ -45,11 +59,59 @@ public class ProjectOfferServiceImpl implements ProjectOfferService {
 			pri.addProject(po.getProject());
 			// 增加报价
 			ori.addOffer(po.getOffer());
+			// 创建图库
+			// 新建image库
+			Image image = new Image();
+			image.setOid(imageOid);
+			image.setUid(tokenutil.tokenToOid());
+			// 新建一个图片库
+			imageServiceImpl.saveImageService(image);
+			info.setOid(oid);
+			info.setStatus("添加成功");
 		} catch (Exception e) {
 			info.setStatus("添加失败");
 		}
-		info.setOid(po.getOid());
-		info.setStatus("添加成功");
+		// info.setOid(po.getOid());
+		// 判断客户信息
+		String clientName = po.getOffer().getClient().getName();
+		// 查询客户是否存在
+		Clientmanager c = client.selClientByName(clientName);
+		if (c == null) {
+			Clientmanager clientmanager = new Clientmanager();
+			clientmanager.setName(clientName);
+			client.addClient(clientmanager);
+		}
+		return info;
+	}
+
+	/**
+	 * 修改项目报价单
+	 */
+	@Override
+	public Info updateProjectOfferOne(ProjectOffer po) {
+		Info info = new Info();
+		try {
+			// 增加项目报价单
+			pori.saveProOfferOne(po);
+			// 增加项目
+			pri.addProject(po.getProject());
+			// 增加报价
+			ori.addOffer(po.getOffer());
+			// 以其他名查询oid
+			info.setStatus("添加成功");
+		} catch (Exception e) {
+			info.setStatus("添加失败");
+		}
+		// info.setOid(po.getOid());
+		// 判断客户信息
+		String clientName = po.getOffer().getClient().getName();
+		// 查询客户是否存在
+		Clientmanager c = client.selClientByName(clientName);
+		if (c == null) {
+			Clientmanager clientmanager = new Clientmanager();
+			clientmanager.setName(clientName);
+			client.addClient(clientmanager);
+		}
 		return info;
 	}
 
@@ -78,7 +140,9 @@ public class ProjectOfferServiceImpl implements ProjectOfferService {
 	 */
 	@Override
 	public List<ProjectOfferVO> selProjectOfferList() {
-		List<ProjectOffer> polist = pori.selProOfferList();
+
+		List<ProjectOffer> polist = pori
+				.selProOfferList(tokenutil.tokenToOid());
 		List<ProjectOfferVO> povolist = new ArrayList<ProjectOfferVO>();
 
 		for (ProjectOffer p : polist) {
@@ -99,7 +163,8 @@ public class ProjectOfferServiceImpl implements ProjectOfferService {
 	 */
 	@Override
 	public List<ProjectOfferVO> selProjectOfferOfStatus(Integer status) {
-		List<ProjectOffer> polist = pori.selProOfferOfStatusList(status);
+		List<ProjectOffer> polist = pori.selProOfferOfStatusList(status,
+				tokenutil.tokenToOid());
 		List<ProjectOfferVO> povolist = new ArrayList<ProjectOfferVO>();
 
 		for (ProjectOffer p : polist) {
@@ -125,38 +190,21 @@ public class ProjectOfferServiceImpl implements ProjectOfferService {
 	 * 上传图片
 	 */
 	@Override
-	public Info updatePrijectImage(MultipartFile file) {
-		Info in = new Info();
-		// 保存文件位置
-		String url = "src\\main\\resources\\public\\";
-		// String oid = tokenutil.tokenToOid();
-		String oid = "57a1cc51bc9ee7ffc3ce6322";
-		String folder = "projectimages";
-		String othername = FileUtil.getOtherName(file);
-		// 文件（IO）
-		Integer status = FileUtil.uploadFile(file, oid, url, folder, othername);
-		// 判断状态
-		if (status == 1) {
-			// 对客户数据库进行持久化
-			Images images = new Images();
-			// 随机产生id
-			images.setImageoid(RandomUtil.getRandomFileName());
-			images.setName(othername);
-			images.setUrl(oid + "/" + folder + "/");
-			// 持久化
-			Integer info = pori.addProjectImage(images, oid);
+	public Info updatePrijectImage(MultipartFile file, String oid) {
+		Info info = new Info();
+		try {
+			ProjectOffer po = selProjectOfferOne(oid);
+			String imageOid = po.getProject().getImageOid();
 
-			if (info == 1) {
-				in.setStatus("上传成功");
-			} else {
-				in.setStatus("上传失败");
-			}
-		} else if (status == 0) {
-			in.setStatus("上传失败，服务器错误");
-		} else if (status == 2) {
-			in.setStatus("上传失败，文件不能为空");
+			// 上传图片
+			// 作用域
+			String imagelocation = "场地效果图";
+			imageServiceImpl.saveImageOneService(file, imageOid, imagelocation);
+			info.setStatus("成功");
+		} catch (Exception e) {
+			info.setStatus("失败");
 		}
-		return in;
+		return info;
 	}
 
 }

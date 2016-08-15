@@ -22,8 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import cc.zhanyun.model.Info;
 import cc.zhanyun.model.location.Location;
+import cc.zhanyun.model.vo.LocationImageOidVO;
 import cc.zhanyun.model.vo.LocationVO;
-import cc.zhanyun.repository.impl.LocationRepoImpl;
 import cc.zhanyun.service.LocationService;
 
 @RestController
@@ -33,10 +33,14 @@ import cc.zhanyun.service.LocationService;
 public class LocationApi {
 
 	@Autowired
-	private LocationRepoImpl service;
-	@Autowired
-	private LocationService service2;
+	private LocationService service;
 
+	/**
+	 * 查询场地列表
+	 * 
+	 * @return
+	 * @throws NotFoundException
+	 */
 	@ApiOperation(value = "查询场地列表", notes = "查询场地列表", response = LocationVO.class, responseContainer = "List")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "获取成功", response = LocationVO.class),
@@ -47,7 +51,7 @@ public class LocationApi {
 	public @ResponseBody
 	List<LocationVO> locationGet() throws NotFoundException {
 		// do some magic!
-		List<LocationVO> llist = service.selLocation();
+		List<LocationVO> llist = service.selLocationList();
 		return llist;
 	}
 
@@ -65,13 +69,15 @@ public class LocationApi {
 	@RequestMapping(value = "", produces = { "application/json" },
 
 	method = RequestMethod.POST)
-	public ResponseEntity<Void> locationPost(
+	public ResponseEntity<LocationImageOidVO> locationPost(
 
 	@ApiParam(value = "场地详细信息") @RequestBody Location location)
 			throws NotFoundException {
 		// do some magic!
-		service.addLocation(location);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+
+		LocationImageOidVO in = service.addLocation(location);
+
+		return new ResponseEntity<LocationImageOidVO>(in, HttpStatus.OK);
 	}
 
 	/**
@@ -88,13 +94,13 @@ public class LocationApi {
 	@RequestMapping(value = "/{oid}", produces = { "application/json" },
 
 	method = RequestMethod.DELETE)
-	public ResponseEntity<Void> locaitonLocationIdDelete(
+	public ResponseEntity<Info> locaitonLocationIdDelete(
 			@ApiParam(value = "客户ID", required = true) @PathVariable("oid") String oid
 
 	) throws NotFoundException {
 		// do some magic!
-		service.delLocationById(oid);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		Info in = service.delLocationInfo(oid);
+		return new ResponseEntity<Info>(in, HttpStatus.OK);
 	}
 
 	/**
@@ -115,7 +121,7 @@ public class LocationApi {
 
 	) throws NotFoundException {
 		// do some magic!
-		return service.selLocationById(oid);
+		return service.selLocationInfo(oid);
 	}
 
 	/**
@@ -133,7 +139,7 @@ public class LocationApi {
 	@RequestMapping(value = "/{oid}", produces = { "application/json" },
 
 	method = RequestMethod.PUT)
-	public ResponseEntity<Void> locaitonLocationIdPut(
+	public ResponseEntity<LocationImageOidVO> locaitonLocationIdPut(
 			@ApiParam(value = "客户ID", required = true) @PathVariable("oid") String oid
 
 			,
@@ -141,8 +147,8 @@ public class LocationApi {
 			@ApiParam(value = "项目属性") @RequestBody Location location)
 			throws NotFoundException {
 		// do some magic!
-		service.addLocation(location);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		LocationImageOidVO in = service.updateLocation(location);
+		return new ResponseEntity<LocationImageOidVO>(in, HttpStatus.OK);
 	}
 
 	/**
@@ -153,10 +159,31 @@ public class LocationApi {
 	 * @return
 	 */
 	@ApiOperation(value = "上传会议室图片", notes = "上传会议室图片")
-	@RequestMapping(value = "/house/image", method = RequestMethod.POST)
-	public Info handleLocationHouseImageUpload(MultipartFile file) {
+	@RequestMapping(value = "/house/{loid}/image/{roid}", method = RequestMethod.POST)
+	public Info handleLocationHouseImageUpload(
+			@ApiParam(value = "场地ID", required = true) @PathVariable("loid") String loid,
+			@ApiParam(value = "房间ID", required = true) @PathVariable("roid") String hoid,
+			MultipartFile file) {
 
-		return service2.uploadlocationHouseImage(file);
+		return service.addLocationRoomImage(loid, hoid, file);
+
+	}
+
+	/**
+	 * 上传会议室案例图片
+	 * 
+	 * @param name
+	 * @param file
+	 * @return
+	 */
+	@ApiOperation(value = "上传会议室案例图片", notes = "上传会议室案例图片")
+	@RequestMapping(value = "/house/{loid}/{roid}", method = RequestMethod.POST)
+	public Info handleLocationHouseCaseImageUpload(
+			@ApiParam(value = "场地ID", required = true) @PathVariable("loid") String loid,
+			@ApiParam(value = "房间ID", required = true) @PathVariable("roid") String roid,
+			MultipartFile file) {
+
+		return service.addLocationRoomCaseImage(loid, roid, file);
 
 	}
 
@@ -168,10 +195,12 @@ public class LocationApi {
 	 * @return
 	 */
 	@ApiOperation(value = "上传场地效果图", notes = "上传场地效果图")
-	@RequestMapping(value = "/image", method = RequestMethod.POST)
-	public Info handleFileUpload(MultipartFile file) {
+	@RequestMapping(value = "/{oid}/image", method = RequestMethod.POST)
+	public Info handleFileUpload(
+			@ApiParam(value = "场地ID", required = true) @PathVariable("oid") String oid,
+			MultipartFile file) {
 
-		return service2.uploadLocationImage(file);
+		return service.addLocationImage(oid, file);
 
 	}
 

@@ -24,7 +24,6 @@ import cc.zhanyun.model.Error;
 import cc.zhanyun.model.Info;
 import cc.zhanyun.model.client.Clientmanager;
 import cc.zhanyun.model.vo.ClientVO;
-import cc.zhanyun.repository.impl.ClientRepoImpl;
 import cc.zhanyun.service.impl.ClientServiceImpl;
 
 @RestController
@@ -32,9 +31,6 @@ import cc.zhanyun.service.impl.ClientServiceImpl;
 @Api(value = "/client", description = "the client API")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-07-20T07:07:41.123Z")
 public class ClientApi {
-
-	@Autowired
-	private ClientRepoImpl clientRepoImpl;
 
 	@Autowired
 	private ClientServiceImpl service;
@@ -55,12 +51,13 @@ public class ClientApi {
 
 	method = RequestMethod.DELETE)
 	public ResponseEntity<Void> clientoidDelete(
-			@ApiParam(value = "客户ID", required = true) @PathVariable("oid") String oid
+
+	@ApiParam(value = "客户ID", required = true) @PathVariable("oid") String oid
 
 	) throws NotFoundException {
 		// do some magic!
 
-		clientRepoImpl.delClient(oid);
+		service.delClientInfo(oid);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
@@ -78,11 +75,12 @@ public class ClientApi {
 	method = RequestMethod.GET)
 	public @ResponseBody
 	Clientmanager clientoidGet(
-			@ApiParam(value = "客户ID", required = true) @PathVariable("oid") String oid
+
+	@ApiParam(value = "客户ID", required = true) @PathVariable("oid") String oid
 
 	) throws NotFoundException {
 		// do some magic!
-		Clientmanager client = clientRepoImpl.selClientById(oid);
+		Clientmanager client = service.selClientInfo(oid);
 		return client;
 	}
 
@@ -102,11 +100,12 @@ public class ClientApi {
 
 	method = RequestMethod.PUT)
 	public ResponseEntity<Void> clientoidPut(
-			@ApiParam(value = "客户ID", required = true) @PathVariable("oid") String oid,
-			@ApiParam(value = "项目属性") @RequestBody Clientmanager clientmanager)
+
+	@ApiParam(value = "客户ID", required = true) @PathVariable("oid") String oid,
+			@ApiParam(value = "项目属性") @RequestBody Clientmanager client)
 			throws NotFoundException {
 		// do some magic!
-		clientRepoImpl.updateClient(clientmanager);
+		service.updateClientOne(client);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
@@ -127,7 +126,7 @@ public class ClientApi {
 	List<ClientVO> clientGet() throws NotFoundException {
 		// do some magic!
 
-		return clientRepoImpl.selClientsOfIDAndName();
+		return service.selClientList();
 	}
 
 	/**
@@ -144,13 +143,12 @@ public class ClientApi {
 	@RequestMapping(value = "", produces = { "application/json" },
 
 	method = RequestMethod.POST)
-	public ResponseEntity<Void> clientPost(
-
-	@ApiParam(value = "客户详细信息") @RequestBody Clientmanager clientmanager)
+	public ResponseEntity<Info> clientPost(
+			@ApiParam(value = "客户详细信息") @RequestBody Clientmanager clientmanager)
 			throws NotFoundException {
 		// do some magic!
-		clientRepoImpl.addClient(clientmanager);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		Info in = service.addClientOne(clientmanager);
+		return new ResponseEntity<Info>(in, HttpStatus.OK);
 	}
 
 	/**
@@ -164,9 +162,11 @@ public class ClientApi {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "获取成功", response = Info.class),
 			@ApiResponse(code = 500, message = "服务器响应失败", response = Error.class) })
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public ResponseEntity<Info> handleFileUpload(MultipartFile file) {
-		Info in = service.uploadImage(file);
+	@RequestMapping(value = "/upload/{oid}", method = RequestMethod.POST)
+	public ResponseEntity<Info> handleFileUpload(
+			@ApiParam(value = "客户ID", required = true) @PathVariable("oid") String oid,
+			MultipartFile file) {
+		Info in = service.addClientImage(file, oid);
 		return new ResponseEntity<Info>(in, HttpStatus.OK);
 
 	}

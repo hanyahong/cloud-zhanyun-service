@@ -28,6 +28,7 @@ import cc.zhanyun.model.ProjectOffer;
 import cc.zhanyun.model.vo.OfferVO;
 import cc.zhanyun.model.vo.ProjectOfferVO;
 import cc.zhanyun.service.EmailService;
+import cc.zhanyun.service.TestMail;
 import cc.zhanyun.service.impl.ProjectOfferServiceImpl;
 
 @RestController
@@ -41,6 +42,8 @@ public class ProjectOfferApi {
 
 	@Autowired
 	private EmailService emailservice;
+	@Autowired
+	private TestMail test;
 
 	/**
 	 * 添加项目报价单
@@ -197,7 +200,7 @@ public class ProjectOfferApi {
 	@RequestMapping(value = "/{oid}", produces = { "application/json" },
 
 	method = RequestMethod.PUT)
-	public ResponseEntity<Void> projectOfferOidPut(
+	public ResponseEntity<Info> projectOfferOidPut(
 			@ApiParam(value = "报价单ID", required = true) @PathVariable("oid") String oid
 
 			,
@@ -205,22 +208,24 @@ public class ProjectOfferApi {
 			@ApiParam(value = "项目属性") @RequestBody ProjectOffer po)
 			throws NotFoundException {
 		// do some magic!
-		service.addProjectOfferOne(po);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		Info in = service.updateProjectOfferOne(po);
+		return new ResponseEntity<Info>(in, HttpStatus.OK);
 	}
 
 	/**
-	 * 上传场地布局图
+	 * 上传项目布局图
 	 * 
 	 * @param name
 	 * @param file
 	 * @return
 	 */
 	@ApiOperation(value = "上传项目效果图", notes = "上传项目效果图")
-	@RequestMapping(value = "/image/", method = RequestMethod.POST)
-	public Info handleProjectOfferImageUpload(MultipartFile file) {
+	@RequestMapping(value = "/image/{oid}", method = RequestMethod.POST)
+	public Info handleProjectOfferImageUpload(
+			@ApiParam(value = "报价单ID", required = true) @PathVariable("oid") String offeroid,
+			MultipartFile file) {
 
-		return service.updatePrijectImage(file);
+		return service.updatePrijectImage(file, offeroid);
 
 	}
 
@@ -242,4 +247,5 @@ public class ProjectOfferApi {
 		return emailservice.sendAttachmentsMail(offerSend);
 
 	}
+
 }

@@ -8,12 +8,15 @@ import org.springframework.stereotype.Service;
 import cc.zhanyun.model.resources.ResourcesTypes;
 import cc.zhanyun.repository.impl.ResourcesTypeRepoImpl;
 import cc.zhanyun.service.ResourceTypeService;
+import cc.zhanyun.util.TokenUtil;
 
 @Service
 public class ResourceTypeServiceImpl implements ResourceTypeService {
 
 	@Autowired
 	private ResourcesTypeRepoImpl typeRepo;
+	@Autowired
+	private TokenUtil token;
 
 	@Override
 	public void saveTypeOne(ResourcesTypes type) {
@@ -23,8 +26,9 @@ public class ResourceTypeServiceImpl implements ResourceTypeService {
 
 	@Override
 	public List<ResourcesTypes> selTypeAll() {
+		String uid = token.tokenToOid();
 		// TODO Auto-generated method stub
-		return typeRepo.selResourceTypes();
+		return typeRepo.selResourceTypes(uid);
 	}
 
 	@Override

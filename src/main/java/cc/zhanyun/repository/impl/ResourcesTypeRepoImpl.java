@@ -25,8 +25,8 @@ public class ResourcesTypeRepoImpl {
 	/**
 	 * 查询分类
 	 */
-	public List<ResourcesTypes> selResourceTypes() {
-		return typesRepo.findAll();
+	public List<ResourcesTypes> selResourceTypes(String uid) {
+		return typesRepo.findByUid(uid);
 	}
 
 	/**

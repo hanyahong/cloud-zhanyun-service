@@ -1,8 +1,5 @@
 package cc.zhanyun.model.location;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
 
 public class Houses {
@@ -11,17 +8,26 @@ public class Houses {
 	private String name;
 	private String length;
 	private String width;
-	private String hight;
+	private String height;
 	private String description;
 	private String introduction;
 	private String notes;
-	private List<Images> images = new ArrayList<Images>();
+	private String images;
+	private String caseimages;
 
-	public List<Images> getImages() {
+	public String getCaseimages() {
+		return caseimages;
+	}
+
+	public void setCaseimages(String caseimages) {
+		this.caseimages = caseimages;
+	}
+
+	public String getImages() {
 		return images;
 	}
 
-	public void setImages(List<Images> images) {
+	public void setImages(String images) {
 		this.images = images;
 	}
 
@@ -58,11 +64,11 @@ public class Houses {
 	}
 
 	public String getHight() {
-		return hight;
+		return height;
 	}
 
 	public void setHight(String hight) {
-		this.hight = hight;
+		this.height = hight;
 	}
 
 	public String getDescription() {

@@ -35,6 +35,14 @@ public class ProjectOfferRepoImpl {
 	}
 
 	/**
+	 * 以其他名查询oid
+	 */
+	public String selOidByOthername(String othername) {
+		ProjectOffer po = por.findByOthername(othername);
+		return po.getOid();
+	}
+
+	/**
 	 * 删除项目报价单
 	 */
 	public void delProOfferOne(String oid) {
@@ -51,7 +59,7 @@ public class ProjectOfferRepoImpl {
 	/**
 	 * 查询项目报价单列表
 	 */
-	public List<ProjectOffer> selProOfferList() {
+	public List<ProjectOffer> selProOfferList(String uid) {
 
 		// 创建对象
 		// DBObject dbObject = new BasicDBObject();
@@ -75,7 +83,7 @@ public class ProjectOfferRepoImpl {
 		 * plist.add(projectOffer); } return plist;
 		 */
 
-		List<ProjectOffer> polist = por.findByIdNotNull();
+		List<ProjectOffer> polist = por.findByUid(uid);
 		// System.out.println(polist.size());
 		return polist;
 	}
@@ -83,9 +91,9 @@ public class ProjectOfferRepoImpl {
 	/**
 	 * 按照 status 查询报价单列表
 	 */
-	public List<ProjectOffer> selProOfferOfStatusList(Integer status) {
+	public List<ProjectOffer> selProOfferOfStatusList(Integer status, String uid) {
 
-		List<ProjectOffer> plist = por.findByofferStatus(status);
+		List<ProjectOffer> plist = por.findByofferStatusAndUid(status, uid);
 
 		return plist;
 	}
@@ -118,7 +126,7 @@ public class ProjectOfferRepoImpl {
 		try {
 			Query query = Query.query(Criteria.where("_id").is(oid));
 			Update update = new Update();
-			update.addToSet("project.image", images);
+			update.addToSet("project.images", images);
 			mongoTemplate.upsert(query, update, ProjectOffer.class);
 		} catch (Exception e) {
 			return 0;

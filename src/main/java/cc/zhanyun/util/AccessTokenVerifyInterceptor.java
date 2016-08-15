@@ -3,8 +3,6 @@
  */
 package cc.zhanyun.util;
 
-import java.util.Enumeration;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -41,26 +39,23 @@ public class AccessTokenVerifyInterceptor extends HandlerInterceptorAdapter {
 			HttpServletResponse response, Object handler) throws Exception {
 		LOG.info("AccessToken executing ...");
 		boolean flag = false;
-		// token
-		String accessToken = request.getHeader("X-Zhanyuncloud-Application-Token");
+		// 获取头部token
+		String accessToken = request.getHeader("token");
 		// String host = request.getHeader("Host");
 		// String access = request.getHeader("Access-Control-Request-Headers");
-		Enumeration<String> name = request.getHeaderNames();
-		while(name.hasMoreElements()){
-			String key = name.nextElement();
-			System.out.println(key+"------"+request.getHeader(key)); 
-		}
-		
+		// Enumeration<String> name = request.getHeaderNames();
+		// while (name.hasMoreElements()) {
+		// String key = name.nextElement();
+		// System.out.println(key + "------" + request.getHeader(key));
+		// }
 
 		System.out.println(accessToken + "----------------------------");
 		if (StringUtils.isNotBlank(accessToken)) {
 			// 验证
 			User u = userRepoImpl.selUserByToken(accessToken);
 			if (u != null) {
-				String ip = request.getRemoteAddr().toString();
-
+				// String ip = request.getRemoteAddr().toString();
 				flag = true;
-
 			}
 		}
 		if (!flag) {
@@ -68,7 +63,6 @@ public class AccessTokenVerifyInterceptor extends HandlerInterceptorAdapter {
 			response.getWriter().print("AccessToken ERROR");
 			System.out.println("AccessToken ERROR");
 		}
-
 		return flag;
 	}
 }

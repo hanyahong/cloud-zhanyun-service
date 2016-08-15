@@ -1,6 +1,9 @@
 package cc.zhanyun.model.user;
 
+import org.springframework.data.annotation.Id;
+
 public class Msg {
+	@Id
 	private String oid;
 	private String name;
 	private String token;

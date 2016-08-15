@@ -6,11 +6,20 @@ public class FileManager {
 	@Id
 	private String oid;
 	private String name;
+	private String basepath;
 	private String url;
 	private String date;
 	private String othername;
 	private String uid;
 	private String offerOid;
+
+	public String getBasepath() {
+		return basepath;
+	}
+
+	public void setBasepath(String basepath) {
+		this.basepath = basepath;
+	}
 
 	public String getOfferOid() {
 		return offerOid;

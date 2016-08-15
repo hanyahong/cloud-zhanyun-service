@@ -6,6 +6,24 @@ public class ClientVO {
 	@Id
 	private String oid;
 	private String name;
+	private String uid;
+	private String tel;
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 
 	public String getOid() {
 		return oid;

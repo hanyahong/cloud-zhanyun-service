@@ -3,7 +3,6 @@ package cc.zhanyun.model.offer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,7 +16,8 @@ public class Selectedresources {
 	private Integer amount = null;
 	private String unit = null;
 	private Integer days = null;
-	private BigDecimal unitprice = null;
+	private double unitprice;
+
 
 	/**
 	 * 资源名称
@@ -89,11 +89,11 @@ public class Selectedresources {
 	 **/
 	@ApiModelProperty(value = "资源单价")
 	@JsonProperty("unitprice")
-	public BigDecimal getUnitprice() {
+	public double getUnitprice() {
 		return unitprice;
 	}
 
-	public void setUnitprice(BigDecimal unitprice) {
+	public void setUnitprice(double unitprice) {
 		this.unitprice = unitprice;
 	}
 
